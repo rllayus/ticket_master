@@ -11,9 +11,11 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 /**
  * @author rlaredo
@@ -37,7 +39,26 @@ public class EchoPostHandler implements HttpHandler {
             responseHeaders.add("Content-type", ContentType.JSON.toString());
 
             if (he.getRequestMethod().equals("POST")) {
-                try {
+                try try (InputStream is = exchange.getRequestBody();
+             OutputStream os = exchange.getResponseBody()) {
+
+                    // Read request body
+            Scanner scanner = new Scanner(is, StandardCharsets.UTF_8.name());
+            String requestBody = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+
+            // Parse JSON
+            JsonObject jsonRequest = new com.google.gson.JsonParser().parse(requestBody).getAsJsonObject();
+            String codigo = jsonRequest.get("codigo").getAsString();
+
+            // Insert into database
+
+            // Send response
+            JsonObject jsonResponse = new JsonObject();
+            jsonResponse.addProperty("status", "OK");
+            jsonResponse.addProperty("llave_privada", llavePrivada);
+            String response = jsonResponse.toString();
+
+
                     JsonObject object = new JsonObject();
                     object.addProperty("nombre", "Ricardo");
                     object.addProperty("Apellido", "Laredo");
@@ -52,6 +73,7 @@ public class EchoPostHandler implements HttpHandler {
                 os.write(response.getBytes());
                 os.close();
                 return;
+            }
             }
             if (he.getRequestMethod().equals("GET")) {
 
