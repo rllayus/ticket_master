@@ -18,16 +18,15 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author rlaredo
  */
-public class EchoPostHandler implements HttpHandler {
+public class UsuariosHandler implements HttpHandler {
 
 
-    public EchoPostHandler() {
+    public UsuariosHandler() {
 
     }
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-
         try {
             InputStreamReader isr = new InputStreamReader(he.getRequestBody(), StandardCharsets.UTF_8);
             String response;

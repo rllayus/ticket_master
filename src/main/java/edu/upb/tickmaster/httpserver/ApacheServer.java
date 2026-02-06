@@ -34,6 +34,7 @@ public class ApacheServer {
             });
 
             this.server.createContext("/hola", new EchoPostHandler());
+            this.server.createContext("/usuarios", new UsuariosHandler());
             this.server.setExecutor(Executors.newFixedThreadPool(2));
             this.server.start();
         
