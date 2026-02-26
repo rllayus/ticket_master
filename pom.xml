@@ -6,6 +6,7 @@
     <artifactId>Tickmaster</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>loadbalancer</module>
         <module>tickmaster</module>
